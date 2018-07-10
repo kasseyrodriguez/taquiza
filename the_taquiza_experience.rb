@@ -1,6 +1,5 @@
                     require './menu.rb'
 
-
                     def the_breaks
                       puts "*" * 70
                     end
@@ -37,12 +36,6 @@
                         puts "press #{i}-#{section[:name]}"
                       end
                       choice= gets.chomp
-                      bill =the_loop(choice)
-                      bill=bill.to_f
-                      tip = (bill * 0.20)
-                      total =bill + tip
-                      puts "The total is $%0.2f"%[total]
-
                     end
 
 
@@ -51,8 +44,13 @@
                     puts "Welcome to Taquiza!!\n\nHere Are Your Options: "
                     puts "\nPress 0- To Show Menu"
                     # puts "Press 1- To Place Order\nPress 2- When Done Ordering\nPress 3- To Get Check"
-                    choice= gets.chomp
-                    if choice == "0"
+                    pick= gets.chomp
+                    if pick == "0"
                       the_breaks
-                      show_sections
+                      choice =show_sections
                     end
+                    bill =the_loop(choice)
+                    bill=bill.to_f
+                    tip = (bill * 0.20)
+                    total =bill + tip
+                    puts "The total is $%0.2f"%[total]
