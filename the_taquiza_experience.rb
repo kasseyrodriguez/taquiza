@@ -16,7 +16,9 @@
                         section[:items].each do |section|
                           if i == choice.to_i
                             puts "#{short_breaks}Press #{num} for #{section[:name]} #{section[:price]}"
+                            if choice.to_i != 2
                             puts "   #{section[:description]}"
+                            end
                             puts ""
                             num =num + 1
                           end
@@ -26,62 +28,6 @@
                       return MENU[:sections][choice.to_i][:items][selection][:price]
                     end
 
-                    def the_loop_no_description(choice)
-                      puts ""
-                      MENU[:sections].each_with_index do |section, i|
-                        num = 0
-                        section[:items].each do |section|
-                          if i == choice.to_i
-                            puts "#{short_breaks}Press #{num} for #{section[:name]} #{section[:price]}"
-                            puts ""
-                            num =num + 1
-                          end
-                        end
-                      end
-                      selection= gets.chomp.to_i
-                      return MENU[:sections][choice.to_i][:items][selection][:price]
-                    end
-
-                    def tacos_section(choice)
-                      the_loop(choice)
-                    end
-
-                    def sides_section(choice)
-                      the_loop(choice)
-                    end
-                    def beer_section(choice)
-                      the_loop_no_description(choice)
-                    end
-
-                    def breakfast_section(choice)
-                      the_loop(choice)
-                    end
-
-                    def coffee_section(choice)
-                      the_loop(choice)
-                    end
-
-                    def cases(choice)
-                      case choice
-                      when "0"
-                        the_breaks
-                      return tacos_section(choice)
-                      when "1"
-                        the_breaks
-                      return sides_section(choice)
-                      when "2"
-                        the_breaks
-                        return beer_section(choice)
-                      when "3"
-                        the_breaks
-                      return   breakfast_section(choice)
-                      when "4"
-                        the_breaks
-                      return coffee_section(choice)
-                      else
-                        puts "Need make a choice"
-                      end
-                    end
 
 
                     def show_sections
@@ -91,7 +37,7 @@
                         puts "press #{i}-#{section[:name]}"
                       end
                       choice= gets.chomp
-                      bill =cases(choice)
+                      bill =the_loop(choice)
                       bill=bill.to_f
                       tip = (bill * 0.20)
                       total =bill + tip
