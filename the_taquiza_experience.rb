@@ -16,7 +16,7 @@ def the_loop(choice)
       if i == choice.to_i
         puts "#{short_breaks}Press #{num} for #{section[:name]} #{section[:price]}"
         if choice.to_i != 2
-        puts "   #{section[:description]}"
+          puts "   #{section[:description]}"
         end
         puts ""
         num =num + 1
@@ -24,15 +24,9 @@ def the_loop(choice)
     end
   end
   selection= gets.chomp.to_i
-  # selectionArray += selection
-  # puts "Press 1- To Place Another Order\nPress 3- To Get Check"
-  # anotherChoice= gets.chomp.to_i
-  # if anotherChoice == "3"
-  return [MENU[:sections][choice.to_i][:items][selection][:price], MENU[:sections][choice.to_i][:items][selection][:name]]
-# else
-#   the_loop(selection)
-# end
-
+  price = MENU[:sections][choice.to_i][:items][selection][:price]
+  name = MENU[:sections][choice.to_i][:items][selection][:name]
+  return [name, price]
 end
 
 
@@ -43,25 +37,45 @@ def show_sections
   MENU[:sections].each_with_index do |section, i|
     puts "press #{i}-#{section[:name]}"
   end
-  puts "press Q to quit"
+  puts "press c for the Check"
   choice= gets.chomp
 end
-def print_the_check(items)
-p items
 
+def the_check(items)
+  the_breaks
+  puts "\nHere is your check:"
+  puts ""
+  items =items.flatten
+  items.each_with_index do |element, index|
+    if index % 2 == 0
+      print "#{element}: "
+    elsif not index % 2 ==0
+      # print element
+      # puts ""
+      print  "$%0.2f"%[element]
+      puts ""
+    end
+  end
+end
+
+def the_calculations(items)
+  total = 0
+  items =items.flatten
+  items.each_with_index do |element, index|
+    if not index % 2 ==0
+      element =element.to_f
+      total += element
+    end
+  end
+  total.to_f
+  tip = (total * 0.20)
+  total_with_tip = total + tip
+  puts ""
+  puts  "Total: $%0.2f" %[total]
+  puts "Total with tip: $%0.2f"%[total_with_tip]
 
 end
 
-def calculations(items)
-  p item
-  # bill = pick
-  # bill=bill.to_f
-  # tip = (bill * 0.20)
-  # total =bill + tip
-  # return "The total is $%0.2f"%[total]
-end
-
-#The welcoming
 def the_order
   ordered_items = []
   the_breaks
@@ -70,16 +84,16 @@ def the_order
   check = false
   until check
     choice = show_sections
-    if (choice.downcase == "q" || choice.downcase == "quit")
+    if (choice.downcase == "c" || choice.downcase == "check")
       check = true
     else
-    pick = the_loop(choice)
+      pick = the_loop(choice)
+      ordered_items << pick
+    end
+
   end
-  ordered_items << pick
-  ordered_items
-  end
-  print_the_check(ordered_items)
-  # puts calculations(ordered_items)
+  the_check(ordered_items)
+  the_calculations(ordered_items)
 end
 
 # Call the main method
